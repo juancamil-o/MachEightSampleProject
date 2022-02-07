@@ -1,0 +1,11 @@
+The idea behind the algorithm is that once the array is sorted, we'll go to the middle of the array and 
+there we'll split the array in two, where we'll evaluate the value in inches of the player at that position.
+If the height is greater than what we need, we can discard the array on the right, since there are only 
+higher values that do not serve us. The same if the height is smaller, we would discard the arrangement on the left. 
+So on until we find the value we are looking for. Once the desired value is found, using two functions we will 
+see if there are adjacent neighbors that have the same height, so they would also meet the condition.
+Each loop will only go through the array if there is a neighbor with the height, otherwise it will just stop.
+
+Every time a player is found that meets the condition, it is added to the solutions. Then, remove the player from 
+the player array (to avoid duplicates and repetitive comparisons) and continue with the next player until the end.
+
