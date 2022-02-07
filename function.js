@@ -63,6 +63,7 @@ function main(players, initialValue) {
     
     `;
   }
+  //tests(solutions);
 }
 
 //To solve the problem, I used an algorithm based in the divide and conquer
@@ -88,7 +89,8 @@ function divideAndConquer(comparingPlayer, initialValue, players) {
   } else if (initialValue - comparingPlayer.h_in < players[half].h_in) {
     divideAndConquer(comparingPlayer, initialValue, arr_left);
     return;
-    //If we found a valid value, we add it to the array of results.
+    //If we found a valid value, we add it to the array of results, and then we
+    //look the neighboors that satisfy the condition
   } else if (
     initialValue - comparingPlayer.h_in == players[half].h_in &&
     players[half].flag == "false" &&
@@ -104,10 +106,51 @@ function divideAndConquer(comparingPlayer, initialValue, players) {
         players[half].last_name
     );
     players[half].flag = "true";
-
-    divideAndConquer(comparingPlayer, initialValue, arr_right);
-    divideAndConquer(comparingPlayer, initialValue, arr_left);
+    findNeighborsRight(initialValue, comparingPlayer, players);
+    findNeighborsLeft(initialValue, comparingPlayer, players);
     return;
+  }
+}
+//Function to find posible solutions in the right
+function findNeighborsRight(initialValue, comparingPlayer, players) {
+  for (var c = half; c < players.length; c++) {
+    if (initialValue - comparingPlayer.h_in == players[c].h_in) {
+      if (players[c].flag == "false" && comparingPlayer != players[c]) {
+        solutions.push(
+          comparingPlayer.first_name +
+            " " +
+            comparingPlayer.last_name +
+            " - " +
+            players[c].first_name +
+            " " +
+            players[c].last_name
+        );
+        players[c].flag = "true";
+      }
+    } else {
+      break;
+    }
+  }
+}
+//Function to find posible solutions in the left
+function findNeighborsLeft(initialValue, comparingPlayer, players) {
+  for (var c = half; c >= 0; c--) {
+    if (initialValue - comparingPlayer.h_in == players[c].h_in) {
+      if (players[c].flag == "false" && comparingPlayer != players[c]) {
+        solutions.push(
+          comparingPlayer.first_name +
+            " " +
+            comparingPlayer.last_name +
+            " - " +
+            players[c].first_name +
+            " " +
+            players[c].last_name
+        );
+        players[c].flag = "true";
+      }
+    } else {
+      break;
+    }
   }
 }
 
@@ -121,3 +164,33 @@ function compare(a, b) {
   }
   return 0;
 }
+
+/*
+function tests(arry) {
+  const toFindDuplicates = (arry) =>
+  arry.filter((item, index) => arry.indexOf(item) !== index);
+  const duplicateElements = toFindDuplicates(arry);
+  console.log(duplicateElements);
+  if (duplicateElements.length == 0) {
+    res.innerHTML += `
+  <tr>
+      <td>
+
+      ${"No duplicate elements"}
+      </td>
+  </tr>
+  `;
+  } else {
+    for (let item of duplicateElements) {
+      res.innerHTML += `
+    <tr>
+        <td>
+        ${item}
+        </td>
+    </tr>
+    
+    `;
+    }
+  }
+}
+*/
